@@ -1,0 +1,18 @@
+{
+  "name": "city-weather",
+  "version": "0.0.1",
+  "description": "A REST service for city weather",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^6.0.1",
+    "jest": "^24.8.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
