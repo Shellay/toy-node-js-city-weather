@@ -11,9 +11,12 @@
   "devDependencies": {
     "eslint": "^6.0.1",
     "eslint-plugin-jest": "^22.11.1",
-    "jest": "^24.8.0"
+    "jest": "^24.8.0",
+    "@types/jest": "^22.2.3",
+    "@types/pg": "^7.4.8"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "pg": "^7.11.0"
   }
 }
