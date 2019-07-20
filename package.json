@@ -4,7 +4,8 @@
   "description": "A REST service for city weather",
   "main": "app.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:db": "jest -c jest.dbTest.config.js tests/db/"
   },
   "author": "",
   "license": "ISC",
