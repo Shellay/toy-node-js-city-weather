@@ -5,6 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start:db:dev": "NODE_ENV=dev docker-compose up -d",
+    "prepare:db:dev": "NODE_ENV=dev node dbModel/prepareDbModel.js",
+    "load:data:dev": "NODE_ENV=dev node data/loadCityData.js data/sampleCities.json",
     "stop:db:dev": "docker-compose down",
     "start:app:dev": "NODE_ENV=dev node app.js",
     "test": "jest",

@@ -1,19 +1,7 @@
 const { execSync } = require('child_process');
 const pg = require('pg');
+const { prepareDbModel } = require('../dbModel/prepareDbModel');
 const dbConfig = require('../config').test.db;
-const fs = require('fs');
-const path = require('path');
-
-// consider using DB migration tool
-const dataModelPath = path.join(__dirname, '..', 'dbModel')
-
-const sqlContext = fs.readFileSync(
-  path.join(dataModelPath, 'context.sql')
-).toString(); 
-
-const sqlModel = fs.readFileSync(
-  path.join(dataModelPath, 'city.sql')
-).toString(); 
 
 module.exports = async () => {
   console.log('[*] Setting up postgres docker for testing...')
@@ -41,8 +29,7 @@ module.exports = async () => {
     throw Error('[!] Failed to setup postgres for testing.');
   } else {
     console.log('[*] Preparing data model...');
-    await client.query(sqlContext);
-    await client.query(sqlModel);
+    await prepareDbModel(client, true);
     await client.end();
   }
 }
