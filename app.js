@@ -4,6 +4,7 @@ const pg = require('pg');
 const env = process.env.NODE_ENV || 'dev'
 const config = require('./config')[env];
 const dbAccess = require('./dbUtil/access');
+const weatherApi = require('./util/weatherApi');
 
 console.log('NODE_ENV: ' + process.env.NODE_ENV);
 
@@ -15,6 +16,9 @@ pool.on('connect', (client) => {
   client.query(`SET search_path TO ${config.db.schema}, public`);
 });
 
+/**
+ * Route for retrieving city from DB
+ */
 server.get('/cities/:id', (req, res, next) => {
   const id = parseInt(req.params.id);
   if (isNaN(id)) {
@@ -31,6 +35,9 @@ server.get('/cities/:id', (req, res, next) => {
   }
 });
 
+/**
+ * Route for finding cities around coordinates
+ */
 server.get('/cities', (req, res, next) => {
   const { lat, lon } = req.query;
   const latNum = parseFloat(lat);
@@ -42,6 +49,27 @@ server.get('/cities', (req, res, next) => {
     dbAccess.selectCityAroundCoord(pool, latNum, lonNum)
     .then((result) => {
       res.send(result);
+      return next();
+    })
+    .catch((e) => {
+      return next(e);
+    });
+  }
+});
+
+/**
+ * Route for querying weather for city
+ */
+server.get('/cities/:id/weather', (req, res, next) => {
+  const id = parseInt(req.params.id);
+  if (isNaN(id)) {
+    return next(new errors.InvalidArgumentError(`Invalid argument: id=${id}`));
+  } else {
+    // TODO do we check cityId in DB?
+    // TODO error handling
+    weatherApi.requestWeather(config.api.weather.url, id, config.api.weather.appid)
+    .then((jsonBody) => {
+      res.send(jsonBody);
       return next();
     })
     .catch((e) => {
