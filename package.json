@@ -11,7 +11,7 @@
     "start:app:dev": "NODE_ENV=dev node app.js",
     "test": "jest",
     "test:db": "jest -c jest.dbTest.config.js tests/db/",
-    "test:rest": "jest -c jest.dbTest.config.js tests/rest/"
+    "test:service": "jest -c jest.serviceTest.config.js tests/service/"
   },
   "author": "",
   "license": "ISC",

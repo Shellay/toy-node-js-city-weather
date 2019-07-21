@@ -1,5 +1,5 @@
 module.exports = {
-  testRegex: '.+\\.dbTest\\.js',
+  testRegex: '.+\\.serviceTest\\.js',
   globalSetup: '<rootDir>tests/testDbSetup.js',
   globalTeardown: '<rootDir>tests/testDbTeardown.js',
 }
