@@ -1,17 +1,6 @@
 const pg = require('pg');
 const dbConfig = require('./testDbConfig.json');
-const fs = require('fs');
-const path = require('path');
 const access = require('../../dbUtil/access');
-
-// consider using DB migration tool
-const sqlContext = fs.readFileSync(
-  path.join(__dirname, '..', '..', 'dbModel', 'context.sql')
-).toString(); 
-
-const sqlModel = fs.readFileSync(
-  path.join(__dirname, '..', '..', 'dbModel', 'city.sql')
-).toString(); 
 
 describe('Test DB queries', () => {
 
@@ -20,10 +9,6 @@ describe('Test DB queries', () => {
   beforeAll(async () => {
     client = new pg.Pool(dbConfig);
     await client.query(`BEGIN`);
-    // await client.query(`CREATE SCHEMA city;`);
-    // await client.query(`CREATE EXTENSION postgis WITH SCHEMA city;`);
-    await client.query(sqlContext);
-    await client.query(sqlModel);
     await client.query(`SET search_path TO city;`);
   });
 
