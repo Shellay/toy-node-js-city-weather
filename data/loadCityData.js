@@ -27,7 +27,11 @@ async function main() {
     const client = new pg.Client(dbConfig);
     await client.connect();
     await client.query('SET search_path TO city');
+    await client.query('BEGIN');
     await insertCities(client, cities);
+    await client.query('COMMIT');
+    // TODO find a better place for this line
+    await client.query(fs.readFile('../dbModel/cityIndex.sql'));
     await client.end();
     console.log('[.] Done.');
 }
