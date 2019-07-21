@@ -32,7 +32,31 @@ async function selectCityWithId(conn, id) {
     : rs.rows[0];
 }
 
+async function deleteCityWithId(conn, id) {
+  await conn.query(`
+  DELETE FROM city WHERE id = $1
+  `, [id]);
+}
+
+async function selectCityAroundCoord(conn, lat, lon, dist = 10000) {
+  // page results?
+  const rs = await conn.query(`
+  SELECT id, name, country,
+    ST_X(coord::GEOMETRY) AS lat,
+    ST_Y(coord::GEOMETRY) AS lon
+  FROM city
+  WHERE
+    ST_DWithin(coord::GEOGRAPHY, ST_GeogFromText($1), $2)
+  `, [
+    `SRID=4326;POINT(${lat} ${lon})`,
+    dist
+  ]);
+  return rs.rows;
+}
+
 module.exports = {
   insertCity,
-  selectCityWithId
+  selectCityWithId,
+  deleteCityWithId,
+  selectCityAroundCoord,
 }
