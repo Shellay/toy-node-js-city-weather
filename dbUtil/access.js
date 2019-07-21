@@ -21,11 +21,15 @@ async function insertCity(conn, cityObj) {
 
 async function selectCityWithId(conn, id) {
   const rs = await conn.query(`
-  SELECT *
+  SELECT id, name, country,
+    ST_X(coord::GEOMETRY) AS lat,
+    ST_Y(coord::GEOMETRY) AS lon
   FROM city
   WHERE id = $1
   `, [id]);
-  return rs.rows.length > 0 ? rs.rows[0] : null;
+  return rs.rows.length === 0
+    ? null
+    : rs.rows[0];
 }
 
 module.exports = {
