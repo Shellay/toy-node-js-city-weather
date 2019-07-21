@@ -1,5 +1,5 @@
 const pg = require('pg');
-const dbConfig = require('./testDbConfig.json');
+const dbConfig = require('../../config').test.db;
 const access = require('../../dbUtil/access');
 
 describe('Test DB queries', () => {
