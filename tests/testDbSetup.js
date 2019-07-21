@@ -1,11 +1,11 @@
 const { execSync } = require('child_process');
 const pg = require('pg');
-const dbConfig = require('./testDbConfig.json');
+const dbConfig = require('../config').test.db;
 const fs = require('fs');
 const path = require('path');
 
 // consider using DB migration tool
-const dataModelPath = path.join(__dirname, '..', '..', 'dbModel')
+const dataModelPath = path.join(__dirname, '..', 'dbModel')
 
 const sqlContext = fs.readFileSync(
   path.join(dataModelPath, 'context.sql')
