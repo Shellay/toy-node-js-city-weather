@@ -8,6 +8,9 @@ const config = {
       port: 5432,
       schema: 'city',
     },
+    app: {
+      port: 8080
+    }
   },
   dev: {
     db: {
@@ -18,8 +21,24 @@ const config = {
       port: 5432,
       schema: 'city',
     },
+    app: {
+      port: 8080
+    }
   },
   prod: {
+    db: {
+      // connection config to production DB server, which is configured
+      // and started completely separately
+      user: process.env.PG_USER,
+      host: process.env.PG_HOST,
+      database: process.env.PG_DATABASE,
+      password: process.env.PG_PASSWORD,
+      port: process.env.PG_PORT,
+      schema: process.env.PG_SCHEMA,
+    },
+    app: {
+      port: process.env.APP_PORT,
+    }
   },
 }
 

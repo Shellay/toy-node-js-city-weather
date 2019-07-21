@@ -40,7 +40,7 @@ function shutDown() {
 process.on('SIGINT', shutDown);
 
 if (require.main === module) {
-  server.listen(8080, () => {
+  server.listen(config.app.port, () => {
     console.log(`${server.name} listening at ${server.url}`);
   });
 }
