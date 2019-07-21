@@ -8,6 +8,8 @@ const dbAccess = require('./dbUtil/access');
 console.log('NODE_ENV: ' + process.env.NODE_ENV);
 
 const server = restify.createServer();
+server.use(restify.plugins.queryParser());
+
 const pool = new pg.Pool(config.db);
 pool.on('connect', (client) => {
   client.query(`SET search_path TO ${config.db.schema}, public`);
@@ -25,7 +27,26 @@ server.get('/cities/:id', (req, res, next) => {
     })
     .catch((e) => {
       return next(e);
+    });
+  }
+});
+
+server.get('/cities', (req, res, next) => {
+  const { lat, lon } = req.query;
+  const latNum = parseFloat(lat);
+  const lonNum = parseFloat(lon);
+  if (isNaN(latNum) || isNaN(lonNum)) {
+    return next(new errors.InvalidArgumentError(
+      `Invalid argument: lat=${latNum} lon=${lonNum}`));
+  } else {
+    dbAccess.selectCityAroundCoord(pool, latNum, lonNum)
+    .then((result) => {
+      res.send(result);
+      return next();
     })
+    .catch((e) => {
+      return next(e);
+    });
   }
 });
 

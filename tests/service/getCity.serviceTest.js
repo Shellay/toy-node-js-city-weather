@@ -18,10 +18,8 @@ describe('GET /cities/:id', () => {
   };
 
   beforeAll(async () => {
+    // might be better to use a separate client
     client = await app.pool.connect();
-    // client = new pg.Client(app.config.db);
-    // await client.connect();
-    // await client.query('SET search_path TO city');
     await access.insertCity(client, sampleCity);
     await client.query('COMMIT');
   });
@@ -29,9 +27,8 @@ describe('GET /cities/:id', () => {
   afterAll(async () => {
     await client.query(`DELETE FROM city WHERE id = $1`, [sampleCity.id]);
     await client.query('COMMIT');
-    await client.end();
-    // Don't forget to close the pool since service has opened sth in it!
-    app.pool.end();
+    // Don't forget to release the client!
+    client.release();
   })
 
   test('Test get one certain city', (done) => {
