@@ -31,13 +31,15 @@ describe('GET /cities/:id', () => {
     client.release();
   })
 
-  test('Test get one certain city', (done) => {
+  test('Get one certain city', (done) => {
     request(app.server)
       .get(`/cities/${sampleCity.id}`)
       .expect('Content-Type', 'application/json')
       .expect(200)
       .expect((res) => {
         expect(res.body.name).toBe(sampleCity.name);
+        expect(res.body.lat).toBeCloseTo(sampleCity.coord.lat);
+        expect(res.body.lng).toBeCloseTo(sampleCity.coord.lon);
       })
       .end(done);
   });

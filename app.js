@@ -4,6 +4,7 @@ const pg = require('pg');
 const env = process.env.NODE_ENV || 'dev'
 const config = require('./config')[env];
 const dbAccess = require('./dbUtil/access');
+const dbAdapter = require('./dbUtil/dbCityJsonAdapter');
 const weatherApi = require('./util/weatherApi');
 
 console.log('NODE_ENV: ' + process.env.NODE_ENV);
@@ -26,7 +27,7 @@ server.get('/cities/:id', (req, res, next) => {
   } else {
     dbAccess.selectCityWithId(pool, id)
     .then((result) => {
-      res.send(result);
+      res.send(dbAdapter.adaptDbReturnedJsonForCityId(result));
       return next();
     })
     .catch((e) => {
@@ -39,16 +40,18 @@ server.get('/cities/:id', (req, res, next) => {
  * Route for finding cities around coordinates
  */
 server.get('/cities', (req, res, next) => {
-  const { lat, lon } = req.query;
+  // NOTE We use `lng` as the parameter name for latitude, which is different from
+  //   the underlying `lon`
+  const { lat, lng } = req.query;
   const latNum = parseFloat(lat);
-  const lonNum = parseFloat(lon);
+  const lonNum = parseFloat(lng);
   if (isNaN(latNum) || isNaN(lonNum)) {
     return next(new errors.InvalidArgumentError(
       `Invalid argument: lat=${latNum} lon=${lonNum}`));
   } else {
     dbAccess.selectCityAroundCoord(pool, latNum, lonNum)
     .then((result) => {
-      res.send(result);
+      res.send(result.map(dbAdapter.adaptDbReturnedJsonForCityCoordQuery));
       return next();
     })
     .catch((e) => {
