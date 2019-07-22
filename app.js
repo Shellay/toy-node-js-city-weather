@@ -27,8 +27,12 @@ server.get('/cities/:id', (req, res, next) => {
   } else {
     dbAccess.selectCityWithId(pool, id)
     .then((result) => {
-      res.send(dbAdapter.adaptDbReturnedJsonForCityId(result));
-      return next();
+      if (result === null) {
+        return next(new errors.NotFoundError('not found'));
+      } else {
+        res.send(dbAdapter.adaptDbReturnedJsonForCityId(result));
+        return next();
+      }
     })
     .catch((e) => {
       return next(e);
