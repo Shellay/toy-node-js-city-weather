@@ -10,9 +10,9 @@ describe('GET /cities/:id/weather', () => {
       .expect('Content-Type', 'application/json')
       .expect(200)
       .expect((res) => {
-        expect(res.body).toHaveProperty('weather');
-        expect(res.body.name).toBe('Mannheim');
-        expect(res.body.weather).toBeInstanceOf(Array);
+        expect(res.body).toHaveProperty('type');
+        expect(res.body).toHaveProperty('type_description');
+        expect(res.body).toHaveProperty('sunrise');
       })
       .end(done);
   });

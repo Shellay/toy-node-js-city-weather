@@ -11,11 +11,11 @@ describe('Test requesting openweather API', () => {
       'https://samples.openweathermap.org/data/2.5/',
       2172797,
       'b6907d289e10d714a6e88b30761fae22',
+      {}  // extraParams should be empty to allow sample API to respond properly!
     );
     expect(body).toBeTruthy();
-    expect(body.cod).toBe(200);
-    expect(body).toHaveProperty('weather');
-    expect(body.weather).toBeInstanceOf(Array);
+    expect(body).toHaveProperty('type');
+    expect(body.type).toBe('Clouds');
   });
 
   test('Failing call to requestWeather to due invalid key', async () => {
@@ -24,6 +24,7 @@ describe('Test requesting openweather API', () => {
         'https://samples.openweathermap.org/data/2.5/',
         2172797,
         '',
+        {}  // extraParams should be empty to allow sample API to respond properly!
       );
     } catch (e) {
       expect(e.statusCode).toBe(401);
