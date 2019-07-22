@@ -35,6 +35,9 @@ sleep 2                                        # Might need some time until DB i
 node dbModel/prepareDbModel.js                 # Prepare DB model (i.e. DDL)
 node data/loadCityData.js ${SAMPLE_DATA_JSON}  # Importing JSON data (here the data of the cities) into Postgres
 ```
+
+Example is also prepared as the bash script `./setup:db:dev.sh`.
+
 (In production environment there should be comparable but different commands available).
 
 After DB is ready, it's OK to run the application
@@ -44,11 +47,11 @@ npm run start:app:dev
 
 Now can try REST calls
 ``` bash
-curl 'http://localhost:8080/cities?lat=29&lon=76'
-# [{"id":1270260,"name":"State of Haryāna","country":"IN","lat":29,"lon":76}]
+curl 'http://localhost:8080/cities?lat=29&lng=76'
+# [{"id":1270260,"name":"State of Haryāna"}]
 ```
 
-To stop the DB:
+After shutting down the app, to stop the DB:
 ``` bash
 docker-compose down                            # Stop and destroy the database
 ```
