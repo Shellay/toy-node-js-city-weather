@@ -17,4 +17,15 @@ describe('GET /cities/:id/weather', () => {
       .end(done);
   });
 
+  test('Fail getting weather for invalid ID == 1', (done) => {
+    request(app.server)
+      .get(`/cities/1/weather`)
+      .expect('Content-Type', 'application/json')
+      .expect(404)
+      .expect((res) => {
+        expect(res.body.code).toBe('NotFound');
+        expect(res.body.message).toBe('not found');
+      })
+      .end(done);
+  });
 });

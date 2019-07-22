@@ -73,7 +73,12 @@ server.get('/cities/:id/weather', (req, res, next) => {
       return next();
     })
     .catch((e) => {
-      return next(e);
+      if (e instanceof errors.HttpError) {
+        return next(e);
+      } else {
+        console.error(e);
+        return next(new errors.InternalServerError());
+      }
     });
   }
 });
