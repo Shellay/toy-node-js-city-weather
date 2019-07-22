@@ -13,8 +13,8 @@ const config = {
     },
     api: {
       weather: {
-        url: 'https://samples.openweathermap.org/data/2.5/',
-        appid: 'b6907d289e10d714a6e88b30761fae22',
+        url: 'https://api.openweathermap.org/data/2.5/',
+        appid: '49368754dd6047dfa65562f7eda366b4',
       }
     },
   },
@@ -32,8 +32,8 @@ const config = {
     },
     api: {
       weather: {
-        url: 'https://samples.openweathermap.org/data/2.5/',
-        appid: 'b6907d289e10d714a6e88b30761fae22',
+        url: 'https://api.openweathermap.org/data/2.5/',
+        appid: '49368754dd6047dfa65562f7eda366b4',
       }
     },
   },
@@ -50,7 +50,13 @@ const config = {
     },
     app: {
       port: process.env.APP_PORT,
-    }
+    },
+    api: {
+      weather: {
+        url: 'https://api.openweathermap.org/data/2.5/',
+        appid: process.env.OPENWEATHER_APPID,
+      }
+    },
   },
 }
 
