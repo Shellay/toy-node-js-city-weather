@@ -1,4 +1,4 @@
-const { requestWeather, WeatherApiRequestError } = require('./weatherApi');
+const { requestWeather } = require('./weatherApi');
 
 describe('Test requesting openweather API', () => {
 
@@ -26,11 +26,9 @@ describe('Test requesting openweather API', () => {
         '',
       );
     } catch (e) {
-      if (e instanceof WeatherApiRequestError) {
-        expect(e.body.cod).toBe(401);
-        expect(e.body).toHaveProperty('message');
-        expect(e.body.message).toMatch(/Invalid API key/);
-      }
+      expect(e.statusCode).toBe(401);
+      expect(e).toHaveProperty('message');
+      expect(e.message).toMatch(/Invalid API key/);
     }
   });
 
