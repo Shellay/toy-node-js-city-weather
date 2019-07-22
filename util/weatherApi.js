@@ -18,7 +18,8 @@ function requestWeather(baseUrl, cityId, appId) {
       url: baseUrl + 'weather',
       qs: {
         id: cityId,
-        appid: appId
+        appid: appId,
+        units: 'metric',
       },
       json: true,
     }, (err, resp, body) => {
