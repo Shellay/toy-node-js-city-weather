@@ -4,7 +4,10 @@
   "description": "A REST service for city weather",
   "main": "app.js",
   "scripts": {
-    "test": "jest"
+    "start:app:dev": "NODE_ENV=dev node app.js",
+    "test:unit": "jest",
+    "test:db": "jest -c jest.dbTest.config.js tests/db/",
+    "test:service": "jest -c jest.serviceTest.config.js tests/service/"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +20,10 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "pg": "^7.11.0"
+    "pg": "^7.11.0",
+    "request": "^2.88.0",
+    "restify": "^8.3.3",
+    "restify-errors": "^8.0.0",
+    "supertest": "^4.0.2"
   }
 }

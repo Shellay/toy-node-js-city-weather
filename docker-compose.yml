@@ -1,0 +1,12 @@
+# Use postgres/example user/password credentials
+version: '3'
+services:
+  postgis:
+    image: geographica/postgis:tasty_termite
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=example
+
+# TODO differentiate transient DB instance used by testing
+#   and persistant instance used by dev
