@@ -56,3 +56,14 @@ After shutting down the app, to stop the DB:
 docker-compose down                            # Stop and destroy the database
 ```
 (For now no persist storage is defined yet - the DB is simply completely gone).
+
+## Fast import of JSON into Postgres
+
+The following sequence of commands depict how to fast import the JSON into Postgres DB:
+``` bash
+zcat data/city.list.json.gz | \
+  node data/jsonToCsv.js | \
+  docker exec -i city-weather_postgis_1 psql -U postgres -d template1 -c "COPY city.city FROM STDIN WITH (FORMAT 'text');"
+```
+
+See script `setup:db:dev:real-data.sh`. Downloading data + import can finish in less than 10s.
