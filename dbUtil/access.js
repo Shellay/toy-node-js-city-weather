@@ -15,15 +15,15 @@ async function insertCity(conn, cityObj) {
     cityObj.id,
     cityObj.name,
     cityObj.country,
-    `SRID=4326;POINT(${cityObj.coord.lat} ${cityObj.coord.lon})`
+    `SRID=4326;POINT(${cityObj.coord.lon} ${cityObj.coord.lat})`
   ]);
 }
 
 async function selectCityWithId(conn, id) {
   const rs = await conn.query(`
   SELECT id, name, country,
-    ST_X(coord::GEOMETRY) AS lat,
-    ST_Y(coord::GEOMETRY) AS lon
+    ST_Y(coord::GEOMETRY) AS lat,
+    ST_X(coord::GEOMETRY) AS lon
   FROM city
   WHERE id = $1
   `, [id]);
@@ -42,13 +42,13 @@ async function selectCityAroundCoord(conn, lat, lon, dist = 10000) {
   // page results?
   const rs = await conn.query(`
   SELECT id, name, country,
-    ST_X(coord::GEOMETRY) AS lat,
-    ST_Y(coord::GEOMETRY) AS lon
+    ST_Y(coord::GEOMETRY) AS lat,
+    ST_X(coord::GEOMETRY) AS lon
   FROM city
   WHERE
     ST_DWithin(coord::GEOGRAPHY, ST_GeogFromText($1), $2)
   `, [
-    `SRID=4326;POINT(${lat} ${lon})`,
+    `SRID=4326;POINT(${lon} ${lat})`,
     dist
   ]);
   return rs.rows;
